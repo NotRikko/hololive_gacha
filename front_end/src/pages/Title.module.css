@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Sixtyfour&family=Wallpoet&display=swap');
+
+#title_main {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../assets/ayame.gif');
+    background-size: cover;
+    background-position: center;
+}
+
+
+
+#title_main h1{
+    justify-self: center;
+    margin-top: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+    position: absolute;
+    color: white;
+    font-size: 8rem;
+    font-family: "Wallpoet", sans-serif;
+    font-weight: 400;
+    font-style: normal;;
+    -webkit-text-stroke: 2px black;
+    text-align: center;
+    animation: glitch 3s ease infinite;
+}
+
+@keyframes glitch {
+    0%, 65% {
+        transform: translate(2px, 0) skew(0deg);
+    }
+    5%, 60% {
+        transform: translate(-2px, 0) skew(0deg);
+    }
+    64% {
+        transform: translate(0, 0) skew(5deg);
+    }
+}
+
+#title_main h1:before, #title_main h1:after {
+    content: "Holo Error";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    color: rgb(255, 255, 255);
+}
+
+#title_main h1:before {
+    animation: glitch-top 2s linear infinite;
+    clip-path: polygon(0 0,100% 0, 100% 33%, 0 33%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+@keyframes glitch-top {
+    0%, 65% {
+        transform: translate(2px, -2px);
+    }
+    5%, 60% {
+        transform: translate(-2px, 2px) ;
+    }
+    64% {
+        transform: translate(13px, -1px) skew(-13deg);
+    }
+}
+
+#title_main h1:after {
+    animation: glitch-bottom 2s linear infinite;
+    clip-path: polygon(0 67%,100% 67%, 100% 100%, 0 100%);
+    -webkit-clip-path: polygon(0 67%,100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch-bottom {
+    0%, 65% {
+        transform: translate(-2px, 0);
+    }
+    5%, 60% {
+        transform: translate(-2px, 0) ;
+    }
+    64% {
+        transform: translate(-22px, 5px) skew(21deg);
+    }
+}
+
+
+
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+
+}
+
+#title_footer {
+    justify-self: center;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+    margin-bottom: 3%;
+}
+
+#title_footer img {
+    width: 10%;
+    height: 5%;
+    background-color: rgba(255, 255, 255, 0.144);
+    padding: 1%;
+}
+
+#title_footer img:hover {
+    background-color: rgba(255, 255, 255, 0.308);
+}
+
+
+
+#click_start {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-align: center;
+    width: 80%;
+    height: 4vh;
+    color: white;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0,0,0,1) 50%, rgba(0, 0, 0, 0.4) 100%);
+    animation: fadeInOut 2.5s infinite;
+}
+
+#side_bar {
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+    color: white;
+    padding: 1.5%;
+}
+
+#side_bar > * {
+    padding: 5%;
+}
+
+#side_bar > *:hover {
+    background-color: rgba(0, 0, 0, 0.349);
+}
+
+@media screen and (max-width: 600px) {
+    #title_main h1{
+        font-size: 4rem;
+        margin-top: 25%;
+    }
+    
+    #title_footer {
+        margin-bottom: 15%;
+    }
+
+    #title_footer img {
+        width: 30%;
+        height: 15%;
+        background-color: rgba(255, 255, 255, 0.144);
+        padding: 1%;
+    }
+
+    #side_bar > * {
+        padding: 0%;
+    }
+    
+}

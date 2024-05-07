@@ -1,0 +1,59 @@
+#main_page {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 1fr 2fr;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../assets/advent.gif');
+    background-size: cover;
+    background-position: center;
+}
+
+#resources {
+    justify-self: end;
+    align-self: start;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: max(15px, 1.5%);
+    margin-right: 5%;
+    gap: 3%;
+    width: 100%;
+}
+
+#resources div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    min-width: 100px;
+    height: 10%;
+    background-color: rgba(255, 255, 255, 0.863);    
+    color: rgb(0, 0, 0);
+}
+
+.resource {
+    gap: 5%;
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.resource img {
+    width: 18%;
+}
+
+#sidebar {
+    grid-row-start: 2;
+    justify-self: end;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    width: 3%;
+    min-width: 45px;
+    margin-right: 3%;
+    margin-bottom: auto;
+}
+
+
+
+
