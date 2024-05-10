@@ -1,0 +1,167 @@
+#container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    filter: blur(0.7rem) brightness(0.4); 
+    transform: scale(1.1);
+    z-index: -3;
+}
+
+#summon_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -3;
+}
+
+#main {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1.4fr 6fr;
+    grid-template-rows: 0.4fr 17fr 2.5fr;
+    justify-items: center;
+    align-items: center;
+    
+}
+
+#header {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    overflow: visible;
+    width: 100%;
+    grid-template-columns: 1fr 3fr;
+    display: grid;
+    margin-top: 1.5%;
+}
+
+#header div {
+    justify-self: end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.685);
+    width: 13%;
+    gap: 5%;
+    font-size: 1.8rem;
+    border-radius: 25px;
+    margin-right: 10%;
+}
+
+#header div img {
+    width: 16%;
+}
+
+
+#banners {
+    grid-column-start: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.2vh;
+    margin-left: 5%;
+}
+
+#banners img {
+    width: 82%;
+    height: 160px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    filter: brightness(.5)
+}
+
+#banners img:hover {
+    filter: brightness(1)
+}
+
+#banner {
+    display: flex;
+    width: 88%;
+    height: 88%;
+    border-radius: 15px;
+    margin-right: 2%;
+}
+
+
+#banner_info {
+    width: 35%;
+    background-color: white;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5%;
+    background-image: url('https://media.istockphoto.com/id/1253186607/vector/abstract-white-gray-color-background-with-round-liquid-shape-vector-illustration.jpg?s=612x612&w=0&k=20&c=DcRAR-_TCrVIOLOkJLhsdmtNH1pUPe5I2e8Wv9ijOHg=')
+}   
+
+#banner img {
+    width: 65%;
+    text-align: center;
+}
+
+#featured_units {
+    display: flex;
+    padding: 0;
+    width: 95%;
+    height: 35%;
+    gap: 5%;
+}
+
+#featured_units img {
+    border-radius: 25px;
+}
+
+#gacha_buttons {
+    grid-column-start: 2;
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: visible;
+    gap: 5%;
+    margin-bottom: 2.2%;
+    margin-right: 2%;
+
+}
+
+
+#gacha_buttons div {
+    display: flex;
+    justify-content: center;
+    gap: 3.5%;
+    width: 50%;
+}
+
+#gacha_buttons button {
+    width: 30%;
+    height: 6.5vh;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.button_icon {
+    width: 12%;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+#loading {
+    width: 100vw;
+    height: 100vh;
+}

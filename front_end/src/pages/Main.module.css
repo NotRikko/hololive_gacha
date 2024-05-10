@@ -9,7 +9,20 @@
     background-position: center;
 }
 
+#main_header {
+    display: grid;
+    grid-template-rows: 1fr;
+    overflow: visible;
+
+}
+
+#main_playercard {
+    grid-row-start: 1;
+    align-self: start;
+}
+
 #resources {
+    grid-row-start: 1;
     justify-self: end;
     align-self: start;
     display: flex;
@@ -17,14 +30,14 @@
     margin-top: max(15px, 1.5%);
     margin-right: 5%;
     gap: 3%;
-    width: 100%;
+    width: 70vw;
 }
 
 #resources div {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 10%;
+    width: 15%;
     min-width: 100px;
     height: 10%;
     background-color: rgba(255, 255, 255, 0.863);    
@@ -52,6 +65,54 @@
     min-width: 45px;
     margin-right: 3%;
     margin-bottom: auto;
+}
+
+#bottombar {
+    align-self: end;
+    margin-bottom: 1.4%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.644);
+    height: 14%;
+    overflow: visible;
+}
+
+.menuBtn {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+    align-items: center;
+    margin-bottom: 4.6%;
+    font-size: 1.5rem;
+}
+
+.menuBtn img {
+    width: 25%;
+    min-width: 35px;
+}
+
+@media screen and (max-width: 650px) {
+    .menuBtn {
+        font-size: 1.1rem;
+        margin-bottom: 13%;
+        gap: 1vh;
+    }
+    #resources {
+        width: 60vw;
+    }
+    .resource {
+        gap: 5%;
+        font-size: 1.5rem;
+        font-weight: 800;
+    }
+    #bottombar {
+        height: 10%;
+        margin-bottom: 3%;
+    }
 }
 
 
