@@ -9,7 +9,17 @@ exports.banner_list = asyncHandler(async (req, res, next) => {
 
     if(!allBanners) {
         res.status(404).json('No banners')
-    }
+    };
 
-    res.status(200).json(allBanners)
+    res.status(200).json(allBanners);
 })
+
+exports.unit_list = asyncHandler(async (req, res, next) => {
+    const allUnits = await Unit.find({});
+
+    if(!allUnits) {
+        res.status(404).json('No units')
+    };
+
+    res.status(200).json(allUnits);
+} )
