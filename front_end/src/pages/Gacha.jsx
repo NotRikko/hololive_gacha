@@ -4,13 +4,20 @@ import GachaAnimation from '../assets/gacha_animation.gif'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import AllPulls from '../components/AllPulls'
+import Pull from '../components/Pull'
+import Banner from '../components/Banner'
+import Nerissa from '../assets/Nerissa_Plush.png'
 
 function Gacha () {
     const [banners, setBanners] = useState(null);
     const [selectedBanner, setSelectedBanner] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSummoning, setIsSummoning] = useState(false);
+    const [summonAnimationComplete, setsummonAnimationComplete] = useState(true);
     const [gachaPulls, setGachaPulls] = useState([]);
+    const [currentPullIndex, setCurrentPullIndex] = useState(0);
+    const [isViewingPulls, setIsViewingPulls] = useState(false);
 
     useEffect(() => {
         const fetchBanners = async () => {
@@ -36,26 +43,72 @@ function Gacha () {
         setSelectedBanner(banner);
     };
 
-    const handleGachaPulls = async () => {
-    }
-        
-    const summon = async () => {
-        setIsSummoning(true);
-        setTimeout(() => {
+    const handleCurrentPull = () => {
+        if (currentPullIndex < gachaPulls.length - 1) {
+            setCurrentPullIndex(currentPullIndex+1);
+        } else {
+            setCurrentPullIndex(0);
             setIsSummoning(false);
-        }, 6000);
+            setIsViewingPulls(true);
+            console.log('finished');
+        }
+    };
+
+    const handleViewingPulls = () => {
+        setIsViewingPulls(!isViewingPulls);
     }
+
+    const summon = async () => {
+        const unitsResponse = await fetch('http://localhost:3000/gacha/units', { mode: 'cors' });
+        
+        if(!unitsResponse.ok) {
+            throw new Error('Issue with network response')
+        }
+
+        const pulledUnits = await unitsResponse.json();
+        const newGachaPulls = [];
+        const getRandomIndex = () => {
+            return Math.floor(Math.random() * pulledUnits.length);
+        };
+        for (let i = 0; i <10; i++) {
+            const randomIndex = getRandomIndex();
+            const randomUnit = pulledUnits[randomIndex];
+            newGachaPulls.push(randomUnit);
+        }
+        console.log(newGachaPulls);
+        setGachaPulls(newGachaPulls);
+        setIsSummoning(true);
+        setsummonAnimationComplete(false);
+        setTimeout(() => {
+            setsummonAnimationComplete(true);
+        }, 6200);
+    }
+
+    const currentPull = gachaPulls[currentPullIndex]
 
     if(isLoading) {
         return <img src='https://i.redd.it/nkmgg4gttnb91.png'id={Style.loading} />
     }
 
+
     return (
         <div>
-            {isSummoning ? 
-            (<img src={GachaAnimation} id={Style.summon_container}/>)
+            {isSummoning && (
+                !summonAnimationComplete ? (
+                    <img src={GachaAnimation} id={Style.summon_container} />
+                ) : (
+                    summonAnimationComplete && (
+                        <Pull
+                            currentPull={currentPull}
+                            handleClick={handleCurrentPull}
+                        />
+                    )
+                )
+            )}
+
+            {isViewingPulls ? 
+                <AllPulls pulls={gachaPulls} handleClick={handleViewingPulls}/>
             :
-            ( 
             <div id={Style.main}>
             <img src={selectedBanner.img} id={Style.container}/>
             <div id={Style.header}>
@@ -76,19 +129,7 @@ function Gacha () {
                 />
             ))}
             </div>
-            <div id={Style.banner}> 
-                <div id={Style.banner_info}>
-                    <h1 style={{ fontSize: '2.8rem'}}>{selectedBanner.title}</h1>
-                    <p style={{ fontSize: '2rem'}}>6d 23h</p>
-                    <p style={{ fontSize: '2rem'}}>Every <span style={{color:'orange'}}>10</span> summons guarantees a <span style={{color:'orange'}}>4</span> star or above unit.</p>
-                    <div id={Style.featured_units}>
-                        <img src='https://images-ng.pixai.art/images/orig/2927c1b2-d5f2-41f5-a58a-3352eb90741a'/>
-                        <img src='https://media.tenor.com/UdhF0AkQiKgAAAAe/fuwamoco-lets-go.png'/>
-                        <img src='https://img3.gelbooru.com//samples/e3/05/sample_e30567fffb89ba33496c3ff1abdc57f8.jpg'/>
-                    </div>
-                </div>
-                <img src={selectedBanner.img}></img>
-            </div>
+            <Banner key={selectedBanner.title} selectedBanner={selectedBanner} />
             <div id={Style.gacha_buttons}>
                 <div>
                     <button><p>Exchange</p></button>
@@ -100,7 +141,7 @@ function Gacha () {
                 </div>
             </div> 
             </div>
-        )}
+            }
         </div>
     )
 }

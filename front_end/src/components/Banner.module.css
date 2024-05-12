@@ -1,0 +1,53 @@
+@keyframes slideIn {
+  from {
+    transform: translateX(100%); 
+    opacity: 0%;
+  }
+  to {
+    transform: translateX(0); 
+    opacity: 100%;
+  }
+}
+
+#banner {
+  display: flex;
+  width: 88%;
+  height: 88%;
+  border-radius: 15px;
+  margin-right: 2%;
+  animation: slideIn 0.2s ease forwards;
+}
+
+#banner_info {
+  width: 35%;
+  background-color: white;
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 5%;
+  background-image: url('https://media.istockphoto.com/id/1253186607/vector/abstract-white-gray-color-background-with-round-liquid-shape-vector-illustration.jpg?s=612x612&w=0&k=20&c=DcRAR-_TCrVIOLOkJLhsdmtNH1pUPe5I2e8Wv9ijOHg=')
+}   
+
+#banner img {
+  width: 65%;
+  text-align: center;
+}
+
+#featured_units {
+  display: flex;
+  padding: 0;
+  width: 95%;
+  height: 35%;
+  gap: 5%;
+}
+
+#featured_units img {
+  border-radius: 25px;
+  border: 2px solid black;
+
+}
