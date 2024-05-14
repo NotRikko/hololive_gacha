@@ -1,6 +1,5 @@
 import Nerissa from '../assets/Nerissa_Plush.png';
 import Style from './Banner.module.css';
-import { useState, useEffect } from 'react';
 
 function Banner ({selectedBanner}) {
 

@@ -1,4 +1,8 @@
+import { useUser } from '../UserProvider';
+
 function PlayerCard () {
+
+    const { user } = useUser();
     const playerCard = {
         display: 'flex',
         alignItems: 'center',
@@ -14,18 +18,20 @@ function PlayerCard () {
         fontSize: '1.3rem',
         border: '3px solid white',
     }
+
+    
     
     return (
         <div style={playerCard}>
             <img 
-            src='https://img.itch.zone/aW1nLzE1MDI4NjUzLnBuZw==/original/zSPnHi.png'
+            src={user.img}
             style={{ width:'25%', border: '2px solid white', borderRadius: '15px'}}
             />
             <div>
                 <p>LVL</p>
-                <p>9</p>
+                <p>{user.level}</p>
             </div>
-            <p>Rikko</p>
+            <p>{user.username}</p>
         </div>
     )
 }

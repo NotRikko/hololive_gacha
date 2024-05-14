@@ -8,10 +8,14 @@ function Pull ({currentPull, handleClick}) {
         setPullKey(prevKey => prevKey + 1);
     }, [handleClick]);
     
-
+    const containerClassName = (
+        currentPull.rarity === 'Legendary' ? Style.legendary :
+        currentPull.rarity === 'Epic' ? Style.epic :
+        Style.common
+    );
     return(
         <div key={pullKey} id={Style.main} onClick={handleClick}>
-            <div id={Style.img_container}>
+            <div id={Style.img_container} className={containerClassName}>
                 <img src={currentPull.img} />
                 <div id={Style.pull_info}>
                     <img src={AssassinIcon}/>

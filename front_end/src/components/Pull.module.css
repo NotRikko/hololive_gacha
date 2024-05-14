@@ -28,9 +28,7 @@
   align-items: center;    
   overflow: hidden; 
   position: relative;
-  border: 6px solid rgba(220, 240, 253, 0.486);
   border-radius: 25px;
-  webkit-animation: slideIn 0.2s ease forwards;
   animation: slideIn 0.2s ease forwards;
   position: relative;
 }
@@ -44,7 +42,7 @@
 #pull_info {
   color: white;
   z-index: 4;
-  background-color: rgba(0, 0, 0, 0.74);
+  background-color: rgba(0, 0, 0, 0.678);
   width: 40%;
   height: 10%;
   padding: 1%;
@@ -87,4 +85,19 @@
   font-size: 2.3rem;
   font-weight: 600;
   overflow: visible;
+}
+
+.legendary {
+  border: 8px solid rgba(212, 182, 82, 0.9);
+  box-shadow: 0px 16px 40px rgba(219, 153, 60, 0.8);
+}
+
+.epic {
+  border: 8px solid rgb(137, 57, 190, 0.9);
+  box-shadow: 0px 16px 40px rgba(155, 60, 219, 0.8);
+}
+
+.common {
+  border: 8px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0px 16px 40px rgba(255, 255, 255, 0.8);
 }

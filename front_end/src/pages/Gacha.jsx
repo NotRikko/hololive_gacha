@@ -1,13 +1,14 @@
-import Style from './Gacha.module.css'
-import Gem from '../assets/gem.png'
-import GachaAnimation from '../assets/gacha_animation.gif'
+import Style from './Gacha.module.css';
+import Gem from '../assets/gem.png';
+import GachaAnimation from '../assets/gacha_animation.gif';
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
-import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import AllPulls from '../components/AllPulls'
-import Pull from '../components/Pull'
-import Banner from '../components/Banner'
-import Nerissa from '../assets/Nerissa_Plush.png'
+import AllPulls from '../components/AllPulls';
+import Pull from '../components/Pull';
+import Banner from '../components/Banner';
+import Nerissa from '../assets/Nerissa_Plush.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useUser } from "../UserProvider";
 
 function Gacha () {
     const [banners, setBanners] = useState(null);
@@ -18,6 +19,13 @@ function Gacha () {
     const [gachaPulls, setGachaPulls] = useState([]);
     const [currentPullIndex, setCurrentPullIndex] = useState(0);
     const [isViewingPulls, setIsViewingPulls] = useState(false);
+
+    const navigate = useNavigate();
+    const { isLoggedIn } = useUser();
+
+    useEffect(() => {
+        isLoggedIn ? null : navigate('/');
+    }, [isLoggedIn, navigate])
 
     useEffect(() => {
         const fetchBanners = async () => {
@@ -50,7 +58,6 @@ function Gacha () {
             setCurrentPullIndex(0);
             setIsSummoning(false);
             setIsViewingPulls(true);
-            console.log('finished');
         }
     };
 
@@ -59,30 +66,70 @@ function Gacha () {
     }
 
     const summon = async () => {
-        const unitsResponse = await fetch('http://localhost:3000/gacha/units', { mode: 'cors' });
-        
-        if(!unitsResponse.ok) {
-            throw new Error('Issue with network response')
-        }
+        try {
+            const commonUnitsRequest = fetch('http://localhost:3000/units/common', { mode: 'cors' });
+            const epicUnitsRequest = fetch('http://localhost:3000/units/epic', { mode: 'cors' });
+            const legendaryUnitsRequest = fetch('http://localhost:3000/units/legendary', { mode: 'cors' });
 
-        const pulledUnits = await unitsResponse.json();
-        const newGachaPulls = [];
-        const getRandomIndex = () => {
-            return Math.floor(Math.random() * pulledUnits.length);
-        };
-        for (let i = 0; i <10; i++) {
-            const randomIndex = getRandomIndex();
-            const randomUnit = pulledUnits[randomIndex];
-            newGachaPulls.push(randomUnit);
+            const [commonUnitsResponse, epicUnitsResponse, legendaryUnitsResponse] = await Promise.all([commonUnitsRequest, epicUnitsRequest, legendaryUnitsRequest]);
+
+            if (!commonUnitsResponse.ok || !epicUnitsResponse.ok || !legendaryUnitsResponse.ok) {
+                throw new Error('Issue with network response');
+            }
+            
+            const commonPool = await commonUnitsResponse.json();
+            const epicPool = await epicUnitsResponse.json();
+            const legendaryPool = await legendaryUnitsResponse.json();
+            const newGachaPulls = [];
+
+            const choosePool = () => {
+                const randomNum = Math.random();
+                
+                if (randomNum <= 0.85) {
+                    return commonPool;
+                } else if (randomNum <= 0.95) {
+                    return epicPool;
+                } else {
+                    return legendaryPool;
+                }
+            };
+            const getRandomIndex = (pool) => {
+                return Math.floor(Math.random() * pool.length);
+            };
+    
+            for (let i = 0; i < 10; i++) {
+                const chosenPool = choosePool();
+                const randomIndex = getRandomIndex(chosenPool);
+                const randomUnit = chosenPool[randomIndex];
+                newGachaPulls.push(randomUnit);
+            }
+    
+            console.log(newGachaPulls);
+            setGachaPulls(newGachaPulls);
+            setIsSummoning(true);
+            setsummonAnimationComplete(false);
+
+            const postResponse = await fetch('http://localhost:3000/users/addUnits', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ gachaPulls: newGachaPulls })
+            });
+    
+            if (!postResponse.ok) {
+                throw new Error('Failed to post gacha pulls to user');
+            }
+    
+            setTimeout(() => {
+                setsummonAnimationComplete(true);
+            }, 6200);
+    
+            console.log('Gacha pulls posted successfully to user');
+        } catch (error) {
+            console.error('Error during summon:', error.message);
         }
-        console.log(newGachaPulls);
-        setGachaPulls(newGachaPulls);
-        setIsSummoning(true);
-        setsummonAnimationComplete(false);
-        setTimeout(() => {
-            setsummonAnimationComplete(true);
-        }, 6200);
-    }
+    };
 
     const currentPull = gachaPulls[currentPullIndex]
 

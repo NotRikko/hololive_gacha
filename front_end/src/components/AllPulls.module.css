@@ -44,13 +44,18 @@
 }
 
 .legendary {
-  border: 3px solid rgb(182, 145, 67);
+  border: 5px solid rgb(182, 145, 67, 0.9);
   box-shadow: 0px 9px 30px rgba(219, 153, 60, 0.8);
 }
 
 .epic {
-  border: 3px solid rgb(137, 57, 190);
+  border: 5px solid rgb(137, 57, 190, 0.9);
   box-shadow: 0px 9px 30px rgba(155, 60, 219, 0.8);
+}
+
+.common{
+  border: 5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0px 9px 30px rgba(255, 255, 255, 0.8);
 }
 
 

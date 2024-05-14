@@ -12,9 +12,19 @@ import Gacha from '../assets/gachaicon.png'
 import Expedition from '../assets/expeditionicon.png'
 import Archive from '../assets/archiveicon.png'
 import PlayerCard from '../components/PlayerCard'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
+import { useUser } from "../UserProvider";
+import { useEffect } from 'react'
+
 
 function Main () {
+    const navigate = useNavigate();
+    const { isLoggedIn } = useUser();
+
+    useEffect(() => {
+        isLoggedIn ? null : navigate('/');
+    }, [isLoggedIn, navigate])
+
     return (
         <div id={Style.main_page}>
             <div id={Style.main_header}>
@@ -54,10 +64,10 @@ function Main () {
                     <img src={Gacha}/>
                     <p>Gacha</p>
                 </Link>
-                <div className={Style.menuBtn}>
+                <Link to='/team' className={Style.menuBtn}>
                     <img src={Team}/>
                     <p>Team</p>
-                </div>
+                </Link>
                 <div className={Style.menuBtn}>
                     <img src={Expedition}/>
                     <p>Trips</p>
