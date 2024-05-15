@@ -21,7 +21,7 @@ function Gacha () {
     const [isViewingPulls, setIsViewingPulls] = useState(false);
 
     const navigate = useNavigate();
-    const { isLoggedIn } = useUser();
+    const { user, isLoggedIn } = useUser();
 
     useEffect(() => {
         isLoggedIn ? null : navigate('/');
@@ -114,7 +114,7 @@ function Gacha () {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ gachaPulls: newGachaPulls })
+                body: JSON.stringify({ username: user.username, gachaPulls: newGachaPulls })
             });
     
             if (!postResponse.ok) {
