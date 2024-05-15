@@ -2,6 +2,7 @@
 
 #title_main {
     display: grid;
+    position: relative;
     grid-template-columns: 1fr;
     width: 100vw;
     height: 100vh;
@@ -13,10 +14,9 @@
 
 
 #title_main h1{
-    justify-self: center;
-    margin-top: 5%;
-    margin-left: 10%;
-    margin-right: 10%;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
     position: absolute;
     color: white;
     font-size: 8rem;
@@ -30,13 +30,13 @@
 
 @keyframes glitch {
     0%, 65% {
-        transform: translate(2px, 0) skew(0deg);
+        transform: translateX(-50%) translate(2px, 0) skew(0deg); /* Modify the transform */
     }
     5%, 60% {
-        transform: translate(-2px, 0) skew(0deg);
+        transform: translateX(-50%) translate(-2px, 0) skew(0deg); /* Modify the transform */
     }
     64% {
-        transform: translate(0, 0) skew(5deg);
+        transform: translateX(-50%) translate(0, 0) skew(5deg); /* Modify the transform */
     }
 }
 
