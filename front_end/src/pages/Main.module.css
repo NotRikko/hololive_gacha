@@ -31,15 +31,16 @@
     margin-right: 5%;
     gap: 3%;
     width: 70vw;
+    height: 70%;
 }
 
 #resources div {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 15%;
+    width: 18%;
     min-width: 100px;
-    height: 10%;
+    height: 50%;
     background-color: rgba(255, 255, 255, 0.863);    
     color: rgb(0, 0, 0);
 }
