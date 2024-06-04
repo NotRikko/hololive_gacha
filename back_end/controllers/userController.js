@@ -37,7 +37,6 @@ exports.user_login = asyncHandler(async (req, res, next) => {
                 userId: user._id
             });
             await newRefreshToken.save();
-
             return res.json({ authenticated: true, user, accessToken, refreshToken });
         } catch (error) {
             return next(error);

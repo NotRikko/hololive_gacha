@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../UserProvider';
 import Style from './Login.module.css';
 
 function Login () {
@@ -6,19 +8,24 @@ function Login () {
         username : '',
         password: '',
     });
+    
+    const {handleLoginStatus, handleUser} = useUser();
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
-        const { name, value, type } = e.target;
+        const { name, value } = e.target;
         setFormData({...formData, [name]: value})
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(formData);
         try {
             const response = await fetch('http://localhost:3000/users/login', {
                 mode: 'cors',
                 method: 'POST',
                 cache: 'no-cache',
-                haders: {
+                headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -35,11 +42,12 @@ function Login () {
                 localStorage.setItem('refreshtoken', data.refreshToken);
                 handleLoginStatus();
                 handleUser(data.user);
+                navigate('/main');
             } else {
                 console.log('Incorrect passsword/username');
             }
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
     };
 
@@ -56,8 +64,9 @@ function Login () {
                     <label htmlFor='password'>Password</label>
                     <input type='password' id='password' name='password' onChange={handleInputChange}/>
                 </div>
-                <button>Submit</button>
+                <button type='submit'>Submit</button>
             </form>
+            <p>No account? Signup here.</p>
         </div>
     );
 }
