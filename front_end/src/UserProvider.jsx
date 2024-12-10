@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [user, setUser] = useState(
         {
             username: '',
