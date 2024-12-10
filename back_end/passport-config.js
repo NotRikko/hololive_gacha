@@ -44,6 +44,6 @@ const JwtAuth = () => {
 }
 
 LocalAuth();
-JwtAuth();
+JwtAuth();g
 
 module.exports = { LocalAuth, JwtAuth };
