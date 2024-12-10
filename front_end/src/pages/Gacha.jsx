@@ -30,7 +30,7 @@ function Gacha () {
     useEffect(() => {
         const fetchBanners = async () => {
             try {
-                const bannersResponse = await fetch('http://localhost:3000/gacha/banners', { mode: 'cors' });
+                const bannersResponse = await fetch('https://hololive-gacha.onrender.com/gacha/banners', { mode: 'cors' });
 
                 if (!bannersResponse.ok) {
                     throw new Error('Issue with network response');
@@ -67,9 +67,9 @@ function Gacha () {
 
     const summon = async () => {
         try {
-            const commonUnitsRequest = fetch('http://localhost:3000/units/common', { mode: 'cors' });
-            const epicUnitsRequest = fetch('http://localhost:3000/units/epic', { mode: 'cors' });
-            const legendaryUnitsRequest = fetch('http://localhost:3000/units/legendary', { mode: 'cors' });
+            const commonUnitsRequest = fetch('https://hololive-gacha.onrender.com/units/common', { mode: 'cors' });
+            const epicUnitsRequest = fetch('https://hololive-gacha.onrender.com/units/epic', { mode: 'cors' });
+            const legendaryUnitsRequest = fetch('https://hololive-gacha.onrender.com/units/legendary', { mode: 'cors' });
 
             const [commonUnitsResponse, epicUnitsResponse, legendaryUnitsResponse] = await Promise.all([commonUnitsRequest, epicUnitsRequest, legendaryUnitsRequest]);
 
@@ -109,7 +109,7 @@ function Gacha () {
             setIsSummoning(true);
             setsummonAnimationComplete(false);
 
-            const postResponse = await fetch('http://localhost:3000/users/addUnits', {
+            const postResponse = await fetch('https://hololive-gacha.onrender.com/users/addUnits', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

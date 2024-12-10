@@ -21,7 +21,7 @@ function Login () {
         e.preventDefault();
         console.log(formData);
         try {
-            const response = await fetch('http://localhost:3000/users/login', {
+            const response = await fetch('https://hololive-gacha.onrender.com/users/login', {
                 mode: 'cors',
                 method: 'POST',
                 cache: 'no-cache',

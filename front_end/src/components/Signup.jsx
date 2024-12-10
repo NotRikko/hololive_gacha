@@ -13,7 +13,7 @@ function Signup () {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('http://localhost:3000/users/signup', {
+            const response = await fetch('https://hololive-gacha.onrender.com/users/signup', {
             mode: 'cors',
             method: 'POST',
             headers: {
