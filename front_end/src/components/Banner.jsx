@@ -12,7 +12,7 @@ function Banner ({selectedBanner}) {
                     <div id={Style.featured_units}>
                         <img src={Nerissa}/>
                         <img src='https://media.tenor.com/UdhF0AkQiKgAAAAe/fuwamoco-lets-go.png'/>
-                        <img src='https://img3.gelbooru.com//samples/e3/05/sample_e30567fffb89ba33496c3ff1abdc57f8.jpg'/>
+                        <img src='https://ih1.redbubble.net/image.5145511702.2080/flat,750x,075,f-pad,750x1000,f8f8f8.jpg'/>
                     </div>
                 </div>
                 <img src={selectedBanner.img}></img>
