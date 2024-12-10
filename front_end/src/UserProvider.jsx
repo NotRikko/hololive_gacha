@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchUser = await fetch('http://localhost:3000/users');
+                const fetchUser = await fetch('https://hololive-gacha.onrender.com/users');
                 
                 if (!fetchUser.ok) {
                     throw new Error('Issue with network response');
