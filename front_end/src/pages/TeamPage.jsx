@@ -3,11 +3,15 @@ import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import Style from './TeamPage.module.css';
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
+import UnitDetail from '../components/UnitDetail';
+
 
 function TeamPage () {
-    const { user, isLoggedIn } = useUser();
+    const { user, userUnits, isLoggedIn } = useUser();
     const [units, setUnits] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState('All');
+    const [viewingUnitState, setViewingUnitState] = useState(false);
+    const [selectedUnit, setSelectedUnit] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,20 +19,30 @@ function TeamPage () {
     }, [isLoggedIn, navigate]);
 
     useEffect(() => {
-        if (user?.owned_units) {
-            setUnits(user.owned_units);
-        } else {
-            setUnits([]); 
+        if (!userUnits) {
+            setUnits([]);
+            return;
         }
-    }, [user]);
+        setUnits(userUnits);
+    }, [userUnits]);
 
     const handleUnits = (rarity) => {
         setSelectedFilter(rarity);
-        let filteredUnits = user.owned_units;
+        let filteredUnits = userUnits;
         if (rarity !== 'All') {
             filteredUnits = filteredUnits.filter(unit => unit.unit.rarity === rarity);
         }
         setUnits(filteredUnits);
+    };
+
+    const handleViewingUnitState = (unit) => {
+        setViewingUnitState(true);
+        setSelectedUnit(unit);
+    };
+
+    const handleCloseUnitDetail = () => {
+        setViewingUnitState(false);
+        setSelectedUnit(null); 
     };
 
     return (
@@ -42,11 +56,19 @@ function TeamPage () {
             </div>
             <div id={Style.units_container}>
             {units.map((unit, index) => (
-                <div key={index}>
-                <img src={unit.unit.img} alt={`Unit ${index}`} />
+                <div 
+                    key={index} 
+                    onClick={() => handleViewingUnitState(unit)}
+                >
+                <img src={unit.unit.image} alt={`Unit ${index}`} />
                 </div>
             ))}
             </div>
+            <UnitDetail 
+            selectedUnit={selectedUnit}
+            viewingUnitState={viewingUnitState} 
+            onClose={handleCloseUnitDetail}
+            />
         </div>
     )
 }

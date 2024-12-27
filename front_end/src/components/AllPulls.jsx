@@ -13,7 +13,7 @@ function AllPulls ({pulls, handleClick}) {
                 );
                 return (
                     <div key={index} className={`${Style.pull_container} ${containerClassName}`} style={{ gridRow }}>
-                        <img src={pull.img} />
+                        <img src={pull.image} />
                     </div>
                 );
             })}

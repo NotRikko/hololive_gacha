@@ -30,13 +30,14 @@ function Gacha () {
     useEffect(() => {
         const fetchBanners = async () => {
             try {
-                const bannersResponse = await fetch('https://hololive-gacha.onrender.com/gacha/banners', { mode: 'cors' });
+                const bannersResponse = await fetch('http://localhost:8080/api/banners/all', { mode: 'cors' });
 
                 if (!bannersResponse.ok) {
                     throw new Error('Issue with network response');
                 }
 
                 const bannersData = await bannersResponse.json();
+                console.log(bannersData);
                 setBanners(bannersData);
                 setSelectedBanner(bannersData[0]);
                 setIsLoading(false);
@@ -67,9 +68,10 @@ function Gacha () {
 
     const summon = async () => {
         try {
-            const commonUnitsRequest = fetch('https://hololive-gacha.onrender.com/units/common', { mode: 'cors' });
-            const epicUnitsRequest = fetch('https://hololive-gacha.onrender.com/units/epic', { mode: 'cors' });
-            const legendaryUnitsRequest = fetch('https://hololive-gacha.onrender.com/units/legendary', { mode: 'cors' });
+            const baseURL = 'http://localhost:8080/api/units/rarity';
+            const commonUnitsRequest = fetch(`${baseURL}?rarity=Common`, { mode: 'cors' });
+            const epicUnitsRequest = fetch(`${baseURL}?rarity=Epic`, { mode: 'cors' });
+            const legendaryUnitsRequest = fetch(`${baseURL}?rarity=Legendary`, { mode: 'cors' });
 
             const [commonUnitsResponse, epicUnitsResponse, legendaryUnitsResponse] = await Promise.all([commonUnitsRequest, epicUnitsRequest, legendaryUnitsRequest]);
 
@@ -103,18 +105,19 @@ function Gacha () {
                 const randomUnit = chosenPool[randomIndex];
                 newGachaPulls.push(randomUnit);
             }
-    
+
             console.log(newGachaPulls);
             setGachaPulls(newGachaPulls);
+            const newGachaPullsIDs = newGachaPulls.map(unit => unit.id);
             setIsSummoning(true);
             setsummonAnimationComplete(false);
 
-            const postResponse = await fetch('https://hololive-gacha.onrender.com/users/addUnits', {
+            const postResponse = await fetch('http://localhost:8080/api/users/addUnits', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username: user.username, gachaPulls: newGachaPulls })
+                body: JSON.stringify({ username: user.username, gachaPulls: newGachaPullsIDs })
             });
     
             if (!postResponse.ok) {
@@ -157,7 +160,7 @@ function Gacha () {
                 <AllPulls pulls={gachaPulls} handleClick={handleViewingPulls}/>
             :
             <div id={Style.main}>
-            <img src={selectedBanner.img} id={Style.container}/>
+            <img src={selectedBanner.image} id={Style.container}/>
             <div id={Style.header}>
                 <Link to='/main' style={{marginLeft: '10%'}}><ExitToAppRoundedIcon style={{color:'white', fontSize:'3.4rem'}}/></Link>
                 <div>
@@ -169,7 +172,7 @@ function Gacha () {
             {banners.map((banner, index) => (
                 <img 
                     key={index} 
-                    src={banner.img} 
+                    src={banner.image} 
                     alt={`Banner ${index}`} 
                     onClick={() => handleBannerChange(banner)}
                     style={banner === selectedBanner ? {filter:'brightness(1)'} : null}

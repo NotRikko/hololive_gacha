@@ -16,7 +16,7 @@ function Pull ({currentPull, handleClick}) {
     return(
         <div key={pullKey} id={Style.main} onClick={handleClick}>
             <div id={Style.img_container} className={containerClassName}>
-                <img src={currentPull.img} />
+                <img src={currentPull.image} />
                 <div id={Style.pull_info}>
                     <img src={AssassinIcon}/>
                     <div id={Style.pull_description}>

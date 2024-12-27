@@ -4,26 +4,36 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [userUnits, setUserUnits] = useState([]);
     const [user, setUser] = useState(
         {
             username: '',
-            img: '',
+            image: '',
             level: null,
-            owned_units: [],
         }
     );
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchUser = await fetch('https://hololive-gacha.onrender.com/users');
+                const fetchUser = await fetch('http://localhost:8080/api/users/user?username=Rikko');
                 
                 if (!fetchUser.ok) {
                     throw new Error('Issue with network response');
                 }
 
                 const userData = await fetchUser.json();
+                console.log(userData);
                 setUser(userData);
+
+                const fetchUserUnits = await fetch(`http://localhost:8080/api/users/viewUnits?user_id=${userData.id}`);
+                if (!fetchUserUnits.ok) {
+                    throw new Error('Issue with network response');
+                }
+                const userUnitsData = await fetchUserUnits.json();
+                console.log('UserUnits data:', userUnitsData);
+                setUserUnits(userUnitsData);
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -33,7 +43,7 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ isLoggedIn, user, setUser }}>
+        <UserContext.Provider value={{ isLoggedIn, user, userUnits, setUser }}>
             {children}
         </UserContext.Provider>
     )

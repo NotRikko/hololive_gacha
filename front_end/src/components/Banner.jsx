@@ -15,7 +15,7 @@ function Banner ({selectedBanner}) {
                         <img src='https://ih1.redbubble.net/image.5145511702.2080/flat,750x,075,f-pad,750x1000,f8f8f8.jpg'/>
                     </div>
                 </div>
-                <img src={selectedBanner.img}></img>
+                <img src={selectedBanner.image}></img>
         </div>
     )
 }
