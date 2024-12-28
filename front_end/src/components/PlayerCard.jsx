@@ -24,7 +24,7 @@ function PlayerCard () {
     return (
         <div style={playerCard}>
             <img 
-            src={user.img}
+            src={user.image}
             style={{ width:'25%', border: '2px solid white', borderRadius: '15px'}}
             />
             <div>
