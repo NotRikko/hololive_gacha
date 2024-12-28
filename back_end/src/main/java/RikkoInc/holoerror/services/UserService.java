@@ -53,6 +53,8 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
 
+        user.setGems(user.getGems()-10); 
+
         // Fetch the pulled units
         List<Unit> pulledUnits = unitService.getUnitsByIds(request.getGachaPulls());
 

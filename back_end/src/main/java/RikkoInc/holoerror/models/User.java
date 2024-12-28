@@ -23,6 +23,9 @@ public class User {
     private String password;
     private String image;
     private Integer level;
+    private Integer gems;
+    private Integer gold;
+    private Integer stamina;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserUnit> userUnits = new HashSet<>();
@@ -67,6 +70,30 @@ public class User {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Integer getGems() {
+        return gems;
+    }
+    
+    public void setGems(Integer gems) {
+        this.gems = gems;
+    }
+
+    public Integer getGold() {
+        return gold;
+    }
+
+    public void setGold(Integer gold) {
+        this.gold = gold;
+    }
+
+    public Integer getStamina() {
+        return stamina;
+    }
+
+    public void setStamina(Integer stamina) {
+        this.stamina = stamina;
     }
 
     public Set<UserUnit> getUserUnits() {
