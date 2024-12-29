@@ -10,6 +10,9 @@ export const UserProvider = ({ children }) => {
             username: '',
             image: '',
             level: null,
+            gems: null,
+            gold: null,
+            stamina: null,
         }
     );
 

@@ -111,6 +111,7 @@ function Gacha () {
             const newGachaPullsIDs = newGachaPulls.map(unit => unit.id);
             setIsSummoning(true);
             setsummonAnimationComplete(false);
+            user.gems = user.gems -10;
 
             const postResponse = await fetch('http://localhost:8080/api/users/addUnits', {
                 method: 'POST',
@@ -165,7 +166,7 @@ function Gacha () {
                 <Link to='/main' style={{marginLeft: '10%'}}><ExitToAppRoundedIcon style={{color:'white', fontSize:'3.4rem'}}/></Link>
                 <div>
                     <img src={Gem}/>
-                    <p>1420</p>
+                    <p>{user.gems}</p>
                 </div>
             </div>
             <div id={Style.banners}>
