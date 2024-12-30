@@ -21,7 +21,7 @@ import RikkoInc.holoerror.helpers.JwtTokenHelper;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") 
+@CrossOrigin(origins = "${CORS_ALLOWED_ORIGIN}") 
 @RequestMapping("/api/users")
 public class UserController {
 

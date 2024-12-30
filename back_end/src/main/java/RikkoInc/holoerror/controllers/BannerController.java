@@ -10,7 +10,7 @@ import RikkoInc.holoerror.services.BannerService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") 
+@CrossOrigin(origins = "${CORS_ALLOWED_ORIGIN}") 
 @RequestMapping("/api/banners")
 
 public class BannerController {
