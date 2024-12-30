@@ -22,6 +22,7 @@ public class Unit {
     private String image;
     private String description;
     private String rarity;
+    private Integer level;
 
     @ManyToMany(mappedBy = "rate_up_units")
     private List<Banner> banners;
@@ -65,5 +66,13 @@ public class Unit {
     
     public String getRarity() {
         return rarity;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }

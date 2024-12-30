@@ -4,13 +4,19 @@ package RikkoInc.holoerror.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import RikkoInc.holoerror.DTO.AddUnitsRequest;
+import RikkoInc.holoerror.DTO.LoginUserRequest;
+import RikkoInc.holoerror.DTO.SignupUserRequest;
+import RikkoInc.holoerror.DTO.LoginUserResponse;
 import RikkoInc.holoerror.models.User;
 import RikkoInc.holoerror.models.UserUnit;
 import RikkoInc.holoerror.services.UserService;
+import RikkoInc.holoerror.helpers.JwtTokenHelper;
+
 
 
 
@@ -22,6 +28,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtTokenHelper jwtTokenHelper;
+
     @GetMapping("/user")
     public ResponseEntity<User> getUser(@RequestParam String username) {
         User user = userService.getUserByUsername(username); 
@@ -29,6 +38,24 @@ public class UserController {
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<User> getUserInfo(@PathVariable String userID, @RequestHeader("Authorization") String token) {
+        if (!jwtTokenHelper.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        try {
+            Long id = Long.parseLong(userID); 
+            User user = userService.getUserById(id);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            return ResponseEntity.ok(user);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Handle invalid ID format
         }
     }
 
@@ -43,28 +70,23 @@ public class UserController {
     public String addUnits(@RequestBody AddUnitsRequest request) {
         return userService.addUnits(request);
     }
+
+    
+    @PostMapping("/login")
+    public ResponseEntity<LoginUserResponse> loginUser(@RequestBody LoginUserRequest request) {
+        User user = userService.loginUser(request);
+        String token = jwtTokenHelper.generateToken(user.getUsername());
+        LoginUserResponse response = new LoginUserResponse(user.getId().toString(), token);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> signupUser(@RequestBody SignupUserRequest request) {
+        userService.createUser(request.getUsername(), request.getPassword());
+        return ResponseEntity.ok("User Created");
+    }
 }
 
-    /* 
-    @PostMapping("/user/addUnits")
-    public String postMethodName(@RequestParam String username) {
-        User user = userService.getUserByUsername(username);
-
-        
-        return entity;
-    }
-    */
-    
-
-    /* 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestParam String username, 
-                                         @RequestParam String password, 
-                                         @RequestParam String email) {
-        userService.createUser(username, password, email);
-        return ResponseEntity.ok("User created");
-    }
-    */
 
 
-    // Other endpoints for login, etc.
+

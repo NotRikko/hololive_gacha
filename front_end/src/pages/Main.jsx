@@ -11,6 +11,7 @@ import Shop from '../assets/shopicon.png'
 import Gacha from '../assets/gachaicon.png'
 import Expedition from '../assets/expeditionicon.png'
 import Archive from '../assets/archiveicon.png'
+import AquaBG from '../assets/aquaBG.mp4'
 import PlayerCard from '../components/PlayerCard'
 import { Link, useNavigate} from 'react-router-dom'
 import { useUser } from "../UserProvider";
@@ -21,12 +22,17 @@ function Main () {
     const navigate = useNavigate();
     const { isLoggedIn } = useUser();
 
+    const { user } = useUser();
+
     useEffect(() => {
         isLoggedIn ? null : navigate('/');
     }, [isLoggedIn, navigate])
 
     return (
         <div id={Style.main_page}>
+            <video autoPlay loop muted>
+                <source src={AquaBG} type="video/mp4" />
+            </video>
             <div id={Style.main_header}>
                 <div id={Style.main_playercard}>
                     <PlayerCard />
@@ -34,15 +40,15 @@ function Main () {
                 <div id={Style.resources}>
                     <div className={Style.resource}>
                         <img src={Energy} />
-                        <p>423</p>
+                        <p>{user.stamina}</p>
                     </div>
                     <div className={Style.resource}>
                         <img src={Gold} />
-                        <p>52350</p>
+                        <p>{user.gold}</p>
                     </div>
                     <div className={Style.resource}>
                         <img src={Gem} />
-                        <p>4320</p>
+                        <p>{user.gems}</p>
                     </div>
                 </div>
             </div>
