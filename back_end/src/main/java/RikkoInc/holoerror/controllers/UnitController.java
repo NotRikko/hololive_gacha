@@ -11,7 +11,7 @@ import RikkoInc.holoerror.services.UnitService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "${CORS_ALLOWED_ORIGIN}")
 @RequestMapping("/api/units")
 
 public class UnitController {
