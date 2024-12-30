@@ -23,6 +23,7 @@ public class UnitService {
         return unitRepository.findById(id);
     }
 
+    
     public List<Unit> getUnitsByIds(List<Long> ids) {
         return unitRepository.findAllById(ids);
     }

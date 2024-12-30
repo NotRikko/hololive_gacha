@@ -11,7 +11,7 @@ import RikkoInc.holoerror.services.UnitService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") 
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/units")
 
 public class UnitController {
@@ -27,6 +27,12 @@ public class UnitController {
     @GetMapping("/all")
     public ResponseEntity<List<Unit>> getAllUnits() {
         List<Unit> units = unitService.getAllUnits();
+        return ResponseEntity.ok(units);
+    }
+    
+    @GetMapping("/unitsByIds")
+    public ResponseEntity<List<Unit>> getUnitsByIds(@RequestParam List<Long> ids) {
+        List<Unit> units = unitService.getUnitsByIds(ids);
         return ResponseEntity.ok(units);
     }
 

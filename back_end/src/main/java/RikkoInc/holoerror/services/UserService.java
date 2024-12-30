@@ -4,13 +4,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
-/*import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; */
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; 
 import org.springframework.stereotype.Service;
 import RikkoInc.holoerror.repositories.UserRepository;
 import RikkoInc.holoerror.repositories.UserUnitRepository;
 import jakarta.transaction.Transactional;
 import RikkoInc.holoerror.DTO.AddUnitsRequest;
+import RikkoInc.holoerror.DTO.LoginUserRequest;
 import RikkoInc.holoerror.models.User;
 import RikkoInc.holoerror.models.UserUnit;
 import RikkoInc.holoerror.models.Unit;
@@ -39,6 +42,10 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);  
+    }
+
+    public User getUserById(Long user_id) {
+        return userRepository.findById(user_id).orElse(null);
     }
     
     public List<UserUnit> getUserUnits(Long user_id) {
@@ -84,28 +91,40 @@ public class UserService {
         return "Units added successfully";
     }
 
-    /* 
-    public User createUser(String username, String password, String email) {
+    @Transactional
+    public User loginUser(LoginUserRequest request) {
+        User user = userRepository.findByUsername(request.getUsername());
+        if (user == null) {
+            throw new BadCredentialsException("User not found");
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Incorrect password");
+        }
+
+        return user;
+    }
+
+    @Transactional
+    public User createUser(String username, String password) {
         if (userRepository.findByUsername(username) != null) {
             throw new RuntimeException("Username already in use");
         }
         
-        if (userRepository.findByEmail(email) != null) {
-            throw new RuntimeException("Email already taken");
-        }
-        
-
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(password);
 
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setPassword(hashedPassword);
-        newUser.setEmail(email);
-        newUser.setImg("https://cdn.donmai.us/original/17/71/177179702fa643f0ba8d8c401f5f2a48.jpg");
+        newUser.setImage("https://cdn.donmai.us/original/17/71/177179702fa643f0ba8d8c401f5f2a48.jpg");
         newUser.setLevel(1);
+        newUser.setGems(1000);
+        newUser.setGold(10000);
+        newUser.setStamina(50);
 
         return userRepository.save(newUser);
     }
-    */
-    // Other methods for login, adding units, etc.
+    
 }
