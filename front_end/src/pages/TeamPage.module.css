@@ -2,7 +2,7 @@
     background-color: black;
     height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 5.5fr; 
+    grid-template-columns: 1.5fr 5fr; 
     justify-items: center;
     align-items: center;
 }
@@ -49,6 +49,7 @@
     border: 3px solid white;
     border-radius: 15px;
     height: 85%;
+    width: 90%;
     overflow-y: scroll;
 }
 

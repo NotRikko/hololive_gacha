@@ -5,10 +5,10 @@ function UnitDetail({ selectedUnit, viewingUnitState, onClose }) {
 
     return (
         <div id={Style.main}>
-            <img src={selectedUnit.unit.image} alt={`${selectedUnit.unit.name} Image`} />
+            <img src={selectedUnit.image} alt={`${selectedUnit.name} Image`} />
             <div id={Style.unitInfo}>
-                <h1>{selectedUnit.unit.name}</h1>
-                <h2>{selectedUnit.unit.description}</h2>
+                <h1>{selectedUnit.name}</h1>
+                <h2>{selectedUnit.description}</h2>
                 <h2>Level {selectedUnit.level}</h2>
                 <button onClick={onClose}>Exit</button>
             </div>

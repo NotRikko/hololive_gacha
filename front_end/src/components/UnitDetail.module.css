@@ -10,7 +10,8 @@
 
 #main img {
     width: 50%;
-    height: 50%;
+    height: 65%;
+    border: 10px solid white;
 }
 
 #unitInfo {
@@ -18,4 +19,5 @@
     flex-direction: column;
     gap: 10%;
     color: white;
+    font-size: 1.5rem;
 }

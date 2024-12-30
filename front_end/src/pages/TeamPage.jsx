@@ -7,7 +7,7 @@ import UnitDetail from '../components/UnitDetail';
 
 
 function TeamPage () {
-    const { user, userUnits, isLoggedIn } = useUser();
+    const { userUnits, isLoggedIn } = useUser();
     const [units, setUnits] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [viewingUnitState, setViewingUnitState] = useState(false);
@@ -30,7 +30,7 @@ function TeamPage () {
         setSelectedFilter(rarity);
         let filteredUnits = userUnits;
         if (rarity !== 'All') {
-            filteredUnits = filteredUnits.filter(unit => unit.unit.rarity === rarity);
+            filteredUnits = filteredUnits.filter(unit => unit.rarity === rarity);
         }
         setUnits(filteredUnits);
     };
@@ -55,14 +55,14 @@ function TeamPage () {
                 <button onClick={() => handleUnits('Legendary')} className={selectedFilter === 'Legendary' ? Style.selected : ''}>Legendary</button>
             </div>
             <div id={Style.units_container}>
-            {units.map((unit, index) => (
-                <div 
-                    key={index} 
-                    onClick={() => handleViewingUnitState(unit)}
-                >
-                <img src={unit.unit.image} alt={`Unit ${index}`} />
-                </div>
-            ))}
+                {userUnits ? units.map((unit, index) => (
+                    <div 
+                        key={index} 
+                        onClick={() => handleViewingUnitState(unit)}
+                    >
+                    <img src={unit.image} alt={`Unit ${index}`} />
+                    </div>
+                )) : null}
             </div>
             <UnitDetail 
             selectedUnit={selectedUnit}

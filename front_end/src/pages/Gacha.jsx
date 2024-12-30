@@ -21,7 +21,7 @@ function Gacha () {
     const [isViewingPulls, setIsViewingPulls] = useState(false);
 
     const navigate = useNavigate();
-    const { user, isLoggedIn } = useUser();
+    const { user, isGuest, isLoggedIn, setUserUnits } = useUser();
 
     useEffect(() => {
         isLoggedIn ? null : navigate('/');
@@ -37,7 +37,6 @@ function Gacha () {
                 }
 
                 const bannersData = await bannersResponse.json();
-                console.log(bannersData);
                 setBanners(bannersData);
                 setSelectedBanner(bannersData[0]);
                 setIsLoading(false);
@@ -106,23 +105,40 @@ function Gacha () {
                 newGachaPulls.push(randomUnit);
             }
 
-            console.log(newGachaPulls);
             setGachaPulls(newGachaPulls);
             const newGachaPullsIDs = newGachaPulls.map(unit => unit.id);
             setIsSummoning(true);
             setsummonAnimationComplete(false);
             user.gems = user.gems -10;
 
-            const postResponse = await fetch('http://localhost:8080/api/users/addUnits', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username: user.username, gachaPulls: newGachaPullsIDs })
-            });
-    
-            if (!postResponse.ok) {
-                throw new Error('Failed to post gacha pulls to user');
+            if(isGuest) {
+                const uniqueGachaPullsIDs = [...new Set(newGachaPullsIDs)];
+                const queryString = uniqueGachaPullsIDs.join('&ids=');
+                const getUnitsResponse = await fetch(`http://localhost:8080/api/units/unitsByIds?ids=${queryString}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+                if (!getUnitsResponse.ok) {
+                    throw new Error('Failed to fetch units by IDs');
+                }
+        
+                const units = await getUnitsResponse.json();
+                setUserUnits(units);
+
+            } else {
+                const postResponse = await fetch('http://localhost:8080/api/users/addUnits', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: user.username, gachaPulls: newGachaPullsIDs })
+                });
+        
+                if (!postResponse.ok) {
+                    throw new Error('Failed to post gacha pulls to user');
+                }
             }
     
             setTimeout(() => {

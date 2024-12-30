@@ -1,6 +1,7 @@
 import { useState } from "react";
+import Style from './Signup.module.css'
 
-function Signup () {
+function Signup ({ displayLoginForm }) {
     const [formData, setFormData] = useState ({
         username: '',
         password: '',
@@ -11,28 +12,34 @@ function Signup () {
         setFormData({...formData, [name]: value})
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
-            const response = await fetch('https://hololive-gacha.onrender.com/users/signup', {
-            mode: 'cors',
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({
-                username: formData.username,
-                password: formData.password,
-            }),
+            const response = await fetch('http://localhost:8080/api/users/signup', {
+                mode: 'cors',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: formData.username,
+                    password: formData.password,
+                }),
             });
-            const data = await response.json();
+    
+            if (response.ok) {
+                    displayLoginForm();  
+            } else {
+                const errorMessage = await response.text();  
+                console.error('Error during signup:', errorMessage);
+            }
         } catch (error) {
-            console.error(error);
-        };
+            console.error('Error during user signup:', error);
+        }
     };
-
     return(
         <div id={Style.main}>
-            <form id={Style.login_form} onSubmit={handleSubmit}>
+            <form id={Style.signup_form} onSubmit={handleSubmit}>
                 <legend>Holo Error Signup</legend>
                 <div></div>
                 <div className={Style.form_sec}>
@@ -44,6 +51,9 @@ function Signup () {
                     <input type='password' id='password' name='password' onChange={handleInputChange}/>
                 </div>
                 <button>Submit</button>
+                <p style={{ fontSize: '1.3rem' }}>
+                    Already have an account? <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => displayLoginForm()}>Click here to login.</span>
+                </p>
             </form>
         </div>
     )

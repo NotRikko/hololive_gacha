@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../UserProvider';
 import Style from './Login.module.css';
 
-function Login () {
+function Login ({ displaySignupForm }) {
     const [formData, setFormData] = useState({
         username : '',
         password: '',
     });
     
-    const {handleLoginStatus, handleUser} = useUser();
+    const {setIsLoggedIn, setUser, handleLoggedInUser, setIsGuest} = useUser();
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
@@ -19,9 +19,8 @@ function Login () {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
         try {
-            const response = await fetch('https://hololive-gacha.onrender.com/users/login', {
+            const response = await fetch('http://localhost:8080/api/users/login', {
                 mode: 'cors',
                 method: 'POST',
                 cache: 'no-cache',
@@ -37,11 +36,10 @@ function Login () {
                 throw new Error('Error fetching response from server');
             }
             const data = await response.json();
-            if(data.authenticated) {
-                localStorage.setItem('accesstoken', data.accessToken);
-                localStorage.setItem('refreshtoken', data.refreshToken);
-                handleLoginStatus();
-                handleUser(data.user);
+            console.log(data);
+            if(data.token) {
+                localStorage.setItem('accesstoken', data.token);
+                await handleLoggedInUser(data.userID, data.token);
                 navigate('/main');
             } else {
                 console.log('Incorrect passsword/username');
@@ -49,6 +47,22 @@ function Login () {
         } catch (error) {
             console.error(error)
         }
+    };
+
+    const handleGuestClick = () => {
+        const testUser = {
+            username: 'Holofan',
+            image: 'https://i.redd.it/90c051twqpo51.jpg',
+            level: 1,
+            gems: 8000,
+            gold: 10000,
+            stamina: 250,
+        };
+
+        setUser(testUser);
+        setIsLoggedIn(true);
+        setIsGuest(true);
+        navigate('/main');
     };
 
     return (
@@ -66,7 +80,12 @@ function Login () {
                 </div>
                 <button type='submit'>Submit</button>
             </form>
-            <p>No account? Signup here.</p>
+            <p style={{ fontSize: '1.3rem' }}>
+                No account? <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => displaySignupForm()}>Click here to signup.</span>
+            </p>
+            <p style={{ fontSize: '1.3rem' }}>
+                Just browsing? <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={handleGuestClick}>Click here to continue as guest!</span>
+            </p >
         </div>
     );
 }
