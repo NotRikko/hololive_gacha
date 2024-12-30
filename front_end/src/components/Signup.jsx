@@ -15,7 +15,7 @@ function Signup ({ displayLoginForm }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/api/users/signup', {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/signup`, {
                 mode: 'cors',
                 method: 'POST',
                 headers: {

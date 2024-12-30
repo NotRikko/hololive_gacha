@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
     );
 
     const handleLoggedInUser = async (loggedUserID, token) => {
-        const fetchUser = await fetch(`http://localhost:8080/api/users/user/${loggedUserID}`, {
+        const fetchUser = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/user/${loggedUserID}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}` 
@@ -31,7 +31,7 @@ export const UserProvider = ({ children }) => {
         const userData = await fetchUser.json();
         setUser(userData);
         
-        const fetchUserUnits = await fetch(`http://localhost:8080/api/users/viewUnits?user_id=${userData.id}`);
+        const fetchUserUnits = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/viewUnits?user_id=${userData.id}`);
         if (!fetchUserUnits.ok) {
             throw new Error('Issue with network response');
         }
@@ -40,37 +40,6 @@ export const UserProvider = ({ children }) => {
         setUserUnits(userUnitsData);
         setIsLoggedIn(true);
     };
-
-    /*
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const fetchUser = await fetch('http://localhost:8080/api/users/user?username=Rikko');
-                
-                if (!fetchUser.ok) {
-                    throw new Error('Issue with network response');
-                }
-
-                const userData = await fetchUser.json();
-                console.log(userData);
-                setUser(userData);
-
-                const fetchUserUnits = await fetch(`http://localhost:8080/api/users/viewUnits?user_id=${userData.id}`);
-                if (!fetchUserUnits.ok) {
-                    throw new Error('Issue with network response');
-                }
-                const userUnitsData = await fetchUserUnits.json();
-                console.log('UserUnits data:', userUnitsData);
-                setUserUnits(userUnitsData);
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-    */
 
     return (
         <UserContext.Provider value={{ isLoggedIn, user, handleLoggedInUser, userUnits, setUser, setIsLoggedIn, setUserUnits, isGuest, setIsGuest }}>
