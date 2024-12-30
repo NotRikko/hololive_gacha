@@ -30,7 +30,7 @@ function Gacha () {
     useEffect(() => {
         const fetchBanners = async () => {
             try {
-                const bannersResponse = await fetch('http://localhost:8080/api/banners/all', { mode: 'cors' });
+                const bannersResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/banners/all`, { mode: 'cors' });
 
                 if (!bannersResponse.ok) {
                     throw new Error('Issue with network response');
@@ -67,7 +67,7 @@ function Gacha () {
 
     const summon = async () => {
         try {
-            const baseURL = 'http://localhost:8080/api/units/rarity';
+            const baseURL = `${process.env.REACT_APP_API_BASE_URL}/api/units/rarity`;
             const commonUnitsRequest = fetch(`${baseURL}?rarity=Common`, { mode: 'cors' });
             const epicUnitsRequest = fetch(`${baseURL}?rarity=Epic`, { mode: 'cors' });
             const legendaryUnitsRequest = fetch(`${baseURL}?rarity=Legendary`, { mode: 'cors' });
@@ -114,7 +114,7 @@ function Gacha () {
             if(isGuest) {
                 const uniqueGachaPullsIDs = [...new Set(newGachaPullsIDs)];
                 const queryString = uniqueGachaPullsIDs.join('&ids=');
-                const getUnitsResponse = await fetch(`http://localhost:8080/api/units/unitsByIds?ids=${queryString}`, {
+                const getUnitsResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/units/unitsByIds?ids=${queryString}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -128,7 +128,7 @@ function Gacha () {
                 setUserUnits(units);
 
             } else {
-                const postResponse = await fetch('http://localhost:8080/api/users/addUnits', {
+                const postResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/addUnits`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
